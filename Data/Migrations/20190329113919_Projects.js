@@ -13,7 +13,8 @@ exports.up = function(knex) {
       .notNullable()
       .unique();
     //completed, boolean (returns 1 for true 0 for false), required
-    tbl.boolean("completed").notNullable();
+    //is there a way to restrict this to 1 or 0?
+    tbl.integer("completed").defaultTo(0);
     // actions - json
     tbl.json("actions");
   });

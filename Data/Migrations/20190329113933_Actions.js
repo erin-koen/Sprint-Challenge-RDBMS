@@ -14,8 +14,8 @@ exports.up = function(knex) {
       .unsigned()
       .references("id")
       .inTable("projects")
-      .ondelete("CASCADE")
-      .onUdate("CASCADE");
+      .onDelete("CASCADE")
+      .onUpdate("CASCADE");
   });
 };
 
