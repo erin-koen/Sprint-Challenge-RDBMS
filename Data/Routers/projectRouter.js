@@ -15,11 +15,29 @@ router.post("/", async (req, res) => {
       res.status(500).json(err);
     }
   } else {
-    res
-      .status(400)
-      .send(
-        "A new project requires a name, a description, and a completed status set to false."
-      );
+    res.status(400).send("A new project requires a name and a description.");
+  }
+});
+
+router.get("/", async (req, res) => {
+  try {
+    const projects = await db("projects");
+    res.status(200).json(projects);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const actions = await db("actions").where({ project_id: id });
+    const project = await db("projects").where({ id });
+    project[0].actions = actions;
+    res.status(200).json(project)
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
 

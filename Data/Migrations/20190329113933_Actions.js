@@ -5,12 +5,13 @@ exports.up = function(knex) {
     //description, string, required
     tbl.string("description", 256).notNullable();
     //notes, string
-    tbl.string("notes", 256);
-    //completed, boolean, required
-    tbl.boolean("completed").notNullable();
-    //project_id, foreignkey from project, required. Alpha version will just be an integer, think i can figure out how to make it a string
+    tbl.string("notes", 256).notNullable();
+    //completed, boolean - loosey goosey right now, need to figure out a way to restrict to 1 and 0 on api - probably a conditional - 'if completed, send 1, else 0'
+    tbl.integer("completed").defaultTo(0);
+    //project_id, foreignkey from project, required. Not nullable. 
     tbl
       .integer("project_id")
+      .notNullable()
       .unsigned()
       .references("id")
       .inTable("projects")
@@ -19,4 +20,6 @@ exports.up = function(knex) {
   });
 };
 
-exports.down = function(knex) {};
+exports.down = function(knex) {
+    return knex.schema.dropTableIfExists("actions");
+};
